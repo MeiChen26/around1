@@ -165,7 +165,8 @@ w.Write(js)
 func readFromES(lat, lon float64, ran string) ([]Post, error) {
     client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false)) 
     if err != nil {
-    return nil, err }
+    return nil, err 
+   }
 
     query := elastic.NewGeoDistanceQuery("location") 
     query = query.Distance(ran).Lat(lat).Lon(lon)
@@ -188,7 +189,7 @@ func readFromES(lat, lon float64, ran string) ([]Post, error) {
 func saveToGCS(r io.Reader, bucketName, objectName string) (*storage.ObjectAttrs, error) { 
     ctx := context.Background()
     // Creates a client.
-    client, err := storage.NewClient(ctx) 
+    client, err := storage.NewClient(ctx, option.WithCredentialsFile("Unknown-3"))
     if err != nil {
     return nil, err 
 }
